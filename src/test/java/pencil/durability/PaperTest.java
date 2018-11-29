@@ -1,20 +1,27 @@
 package pencil.durability;
 
 import org.junit.Test;
+import org.junit.Before;
 import static org.junit.Assert.*;
 
 public class PaperTest {
+	private static final String SHE_SELLS_SEA_SHELLS = "She sells sea shells";
+	private static final String DOWN_BY_THE_SEA_SHORE = " down by the sea shore";
+	Paper testPaper;
+
+	@Before
+	public void setup(){
+		testPaper = new Paper(SHE_SELLS_SEA_SHELLS);
+	}
+
 	@Test
 	public void testThatAPaperCanBeCreatedWithTextOnIt(){
-		Paper testPaper = new Paper("She sells sea shells");
-		assertEquals("She sells sea shells", testPaper.getText());
+		assertEquals(SHE_SELLS_SEA_SHELLS, testPaper.getText());
 	}
 
 	@Test 
     public void testThatAPaperCanHaveTextAddedToIt() {
-        Paper testPaper = new Paper("She sells sea shells");
-        testPaper.addText(" down by the sea shore");
-        assertEquals("She sells sea shells down by the sea shore", testPaper.getText());
+        testPaper.addText(DOWN_BY_THE_SEA_SHORE);
+        assertEquals(SHE_SELLS_SEA_SHELLS + DOWN_BY_THE_SEA_SHORE, testPaper.getText());
     }
-
 }
