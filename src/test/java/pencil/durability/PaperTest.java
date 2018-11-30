@@ -65,4 +65,10 @@ public class PaperTest {
 		assertEquals("An onion a day keeps the doctor away", aBlankADayPaper.getText());
 	}
 
+	@Test
+	public void testThatAPaperCanHaveTextEditedIntoWhitespaceAndOverOtherCharacters(){
+		Paper aBlankADayPaper = new Paper("An       a day keeps the doctor away");
+		aBlankADayPaper.insertTextAtTheGivenIndex("artichoke", 3);
+		assertEquals("An artich@k@ay keeps the doctor away", aBlankADayPaper.getText());
+	}
 }

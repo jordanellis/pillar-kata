@@ -39,7 +39,11 @@ public class Paper {
     	String currentText = getText();
     	char[] currentTextAsCharArray = currentText.toCharArray();
     	for (int i = 0; i < textToAddToPaper.length(); i++){
-    		currentTextAsCharArray[startIndex + i] = textToAddToPaper.charAt(i);
+    		char characterToAddToCurrentIndex = textToAddToPaper.charAt(i);
+    		if (currentTextAsCharArray[startIndex + i] != ' '){
+	    		characterToAddToCurrentIndex = '@';
+	    	}
+    		currentTextAsCharArray[startIndex + i] = characterToAddToCurrentIndex;
     	}
 		setText(String.valueOf(currentTextAsCharArray));
     }
