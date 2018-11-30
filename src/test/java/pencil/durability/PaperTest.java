@@ -20,8 +20,14 @@ public class PaperTest {
 	}
 
 	@Test 
-    public void testThatAPaperCanHaveTextAddedToIt() {
+    public void testThatAPaperCanHaveTextAddedToIt(){
         testPaper.addText(DOWN_BY_THE_SEA_SHORE);
         assertEquals(SHE_SELLS_SEA_SHELLS + DOWN_BY_THE_SEA_SHORE, testPaper.getText());
+    }
+
+    @Test
+    public void testThatAPaperCanHaveTextRemovedFromIt(){
+    	testPaper.removeText("sea");
+    	assertEquals("She sells     shells", testPaper.getText());
     }
 }
