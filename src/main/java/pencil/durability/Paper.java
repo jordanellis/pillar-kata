@@ -22,10 +22,13 @@ public class Paper {
         setText(currentText + textToAddToPaper);
     }
 
-    public void removeText(String textToRemoveFromPaper){
+    public void removeText(String textToRemoveFromPaper) throws PaperDoesNotContainThatSubstringException {
     	String currentText = getText();
 		char[] currentTextAsCharArray = currentText.toCharArray();
     	int startIndex = currentText.lastIndexOf(textToRemoveFromPaper);
+    	if (startIndex < 0){
+    		throw new PaperDoesNotContainThatSubstringException();
+    	}
     	for (int i = 0; i < textToRemoveFromPaper.length(); i++){
 			currentTextAsCharArray[startIndex + i] = ' ';
     	}

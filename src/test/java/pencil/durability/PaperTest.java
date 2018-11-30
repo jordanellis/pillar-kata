@@ -20,23 +20,28 @@ public class PaperTest {
 	}
 
 	@Test 
-    public void testThatAPaperCanHaveTextAddedToIt(){
+    public void testThatAPaperCanHaveTextAddedToIt() throws PaperDoesNotContainThatSubstringException {
         testPaper.addText(DOWN_BY_THE_SEA_SHORE);
         assertEquals(SHE_SELLS_SEA_SHELLS + DOWN_BY_THE_SEA_SHORE, testPaper.getText());
     }
 
     @Test
-    public void testThatAPaperCanHaveTextRemovedFromIt(){
+    public void testThatAPaperCanHaveTextRemovedFromIt() throws PaperDoesNotContainThatSubstringException {
     	testPaper.removeText("sea");
     	assertEquals("She sells     shells", testPaper.getText());
     }
 
     @Test
-    public void testThatAPaperCanHaveTextRemovedFromItMultipleTimes(){
+    public void testThatAPaperCanHaveTextRemovedFromItMultipleTimes() throws PaperDoesNotContainThatSubstringException {
     	Paper woodChuckPaper = new Paper("How much wood would a woodchuck chuck if a woodchuck could chuck wood?");
     	woodChuckPaper.removeText("chuck");
     	assertEquals("How much wood would a woodchuck chuck if a woodchuck could       wood?", woodChuckPaper.getText());
     	woodChuckPaper.removeText("chuck");
     	assertEquals("How much wood would a woodchuck chuck if a wood      could       wood?", woodChuckPaper.getText());
     }
+
+    @Test(expected = PaperDoesNotContainThatSubstringException.class)
+	public void testThatAPaperThrowsAnExceptionIfAUserTriesToRemoveASubstringThatIsNotThere() throws PaperDoesNotContainThatSubstringException {
+    	testPaper.removeText("chuck");
+	}
 }
