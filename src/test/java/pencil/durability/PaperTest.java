@@ -30,4 +30,13 @@ public class PaperTest {
     	testPaper.removeText("sea");
     	assertEquals("She sells     shells", testPaper.getText());
     }
+
+    @Test
+    public void testThatAPaperCanHaveTextRemovedFromItMultipleTimes(){
+    	Paper woodChuckPaper = new Paper("How much wood would a woodchuck chuck if a woodchuck could chuck wood?");
+    	woodChuckPaper.removeText("chuck");
+    	assertEquals("How much wood would a woodchuck chuck if a woodchuck could       wood?", woodChuckPaper.getText());
+    	woodChuckPaper.removeText("chuck");
+    	assertEquals("How much wood would a woodchuck chuck if a wood      could       wood?", woodChuckPaper.getText());
+    }
 }
