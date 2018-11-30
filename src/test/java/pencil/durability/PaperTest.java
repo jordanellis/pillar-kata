@@ -57,4 +57,10 @@ public class PaperTest {
     		assertEquals("This paper does not contain the substring 'chuck'.", exception.getExceptionMessage());
     	}
 	}
+
+	@Test
+	public void testThatAPaperCanHaveTextEditedIntoWhitespace(){
+		Paper aBlankADayPaper = new Paper("An       a day keeps the doctor away");
+		aBlankADayPaper.insertTextAtTheGivenIndex("onion", 4);
+	}
 }

@@ -34,4 +34,13 @@ public class Paper {
     	}
 		setText(String.valueOf(currentTextAsCharArray));
     }
+
+    public void insertTextAtTheGivenIndex(String textToAddToPaper, int startIndex){
+    	String currentText = getText();
+    	char[] currentTextAsCharArray = currentText.toCharArray();
+    	for (int i = 0; i < textToAddToPaper.length(); i++){
+    		currentTextAsCharArray[startIndex + i] = textToAddToPaper.charAt(i);
+    	}
+		setText(String.valueOf(currentTextAsCharArray));
+    }
 }
