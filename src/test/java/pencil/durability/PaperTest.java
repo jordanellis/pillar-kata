@@ -61,6 +61,8 @@ public class PaperTest {
 	@Test
 	public void testThatAPaperCanHaveTextEditedIntoWhitespace(){
 		Paper aBlankADayPaper = new Paper("An       a day keeps the doctor away");
-		aBlankADayPaper.insertTextAtTheGivenIndex("onion", 4);
+		aBlankADayPaper.insertTextAtTheGivenIndex("onion", 3);
+		assertEquals("An onion a day keeps the doctor away", aBlankADayPaper.getText());
 	}
+
 }
