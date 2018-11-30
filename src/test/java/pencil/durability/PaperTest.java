@@ -20,28 +20,40 @@ public class PaperTest {
 	}
 
 	@Test 
-    public void testThatAPaperCanHaveTextAddedToIt() throws PaperDoesNotContainThatSubstringException {
+    public void testThatAPaperCanHaveTextAddedToIt(){
         testPaper.addText(DOWN_BY_THE_SEA_SHORE);
         assertEquals(SHE_SELLS_SEA_SHELLS + DOWN_BY_THE_SEA_SHORE, testPaper.getText());
     }
 
     @Test
-    public void testThatAPaperCanHaveTextRemovedFromIt() throws PaperDoesNotContainThatSubstringException {
-    	testPaper.removeText("sea");
-    	assertEquals("She sells     shells", testPaper.getText());
+    public void testThatAPaperCanHaveTextRemovedFromIt(){
+    	try {
+	    	testPaper.removeText("sea");
+	    	assertEquals("She sells     shells", testPaper.getText());
+	    } catch (PaperDoesNotContainThatSubstringException exception) {
+	    	fail(exception.getExceptionMessage());
+	    }
     }
 
     @Test
-    public void testThatAPaperCanHaveTextRemovedFromItMultipleTimes() throws PaperDoesNotContainThatSubstringException {
-    	Paper woodChuckPaper = new Paper("How much wood would a woodchuck chuck if a woodchuck could chuck wood?");
-    	woodChuckPaper.removeText("chuck");
-    	assertEquals("How much wood would a woodchuck chuck if a woodchuck could       wood?", woodChuckPaper.getText());
-    	woodChuckPaper.removeText("chuck");
-    	assertEquals("How much wood would a woodchuck chuck if a wood      could       wood?", woodChuckPaper.getText());
+    public void testThatAPaperCanHaveTextRemovedFromItMultipleTimes(){
+    	try {
+	    	Paper woodChuckPaper = new Paper("How much wood would a woodchuck chuck if a woodchuck could chuck wood?");
+	    	woodChuckPaper.removeText("chuck");
+	    	assertEquals("How much wood would a woodchuck chuck if a woodchuck could       wood?", woodChuckPaper.getText());
+	    	woodChuckPaper.removeText("chuck");
+	    	assertEquals("How much wood would a woodchuck chuck if a wood      could       wood?", woodChuckPaper.getText());
+	    } catch (PaperDoesNotContainThatSubstringException exception) {
+	    	fail(exception.getExceptionMessage());
+	    }
     }
 
-    @Test(expected = PaperDoesNotContainThatSubstringException.class)
-	public void testThatAPaperThrowsAnExceptionIfAUserTriesToRemoveASubstringThatIsNotThere() throws PaperDoesNotContainThatSubstringException {
-    	testPaper.removeText("chuck");
+    @Test
+	public void testThatAPaperThrowsAnExceptionIfAUserTriesToRemoveASubstringThatIsNotThere(){
+    	try {
+    		testPaper.removeText("chuck");
+    	} catch (PaperDoesNotContainThatSubstringException exception) {
+    		assertEquals("This paper does not contain the substring 'chuck'.", exception.getExceptionMessage());
+    	}
 	}
 }

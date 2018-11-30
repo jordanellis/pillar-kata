@@ -27,7 +27,7 @@ public class Paper {
 		char[] currentTextAsCharArray = currentText.toCharArray();
     	int startIndex = currentText.lastIndexOf(textToRemoveFromPaper);
     	if (startIndex < 0){
-    		throw new PaperDoesNotContainThatSubstringException();
+    		throw new PaperDoesNotContainThatSubstringException(textToRemoveFromPaper);
     	}
     	for (int i = 0; i < textToRemoveFromPaper.length(); i++){
 			currentTextAsCharArray[startIndex + i] = ' ';
