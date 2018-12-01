@@ -71,4 +71,11 @@ public class PaperTest {
 		aBlankADayPaper.insertTextAtTheGivenIndex("artichoke", 3);
 		assertEquals("An artich@k@ay keeps the doctor away", aBlankADayPaper.getText());
 	}
+
+	@Test
+	public void testThatAPaperCanHaveTextEditedAndHaveItExtendBeyondTheCurrentLength(){
+		Paper helloWorldPaper = new Paper("Hello world!");
+		helloWorldPaper.insertTextAtTheGivenIndex("everyone!", 6);
+		assertEquals("Hello @@@@@@ne!", helloWorldPaper.getText());
+	}
 }
