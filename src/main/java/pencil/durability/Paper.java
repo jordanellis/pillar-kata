@@ -35,8 +35,11 @@ public class Paper {
 		setText(String.valueOf(currentTextAsCharArray));
     }
 
-    public void insertTextAtTheGivenIndex(String textToAddToPaper, int startIndex){
+    public void insertTextAtTheGivenIndex(String textToAddToPaper, int startIndex) throws PaperCannotInsertTextAtTheGivenIndexException {
     	String currentText = getText();
+    	if (currentText.length() < startIndex) {
+    		throw new PaperCannotInsertTextAtTheGivenIndexException(startIndex);
+    	}
     	char[] currentTextAsCharArray = currentText.toCharArray();
     	for (int i = 0; i < textToAddToPaper.length(); i++){
     		if (startIndex+i == currentText.length()){

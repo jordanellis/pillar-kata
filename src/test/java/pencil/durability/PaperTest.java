@@ -53,6 +53,7 @@ public class PaperTest {
 	public void testThatAPaperThrowsAnExceptionIfAUserTriesToRemoveASubstringThatIsNotThere(){
     	try {
     		sheSellsSeaShellsPaper.removeText(CHUCK);
+    		fail("Paper did not throw PaperDoesNotContainThatSubstringException.");
     	} catch (PaperDoesNotContainThatSubstringException exception) {
     		assertEquals("This paper does not contain the substring 'chuck'.", exception.getExceptionMessage());
     	}
@@ -61,21 +62,44 @@ public class PaperTest {
 	@Test
 	public void testThatAPaperCanHaveTextEditedIntoWhitespace(){
 		Paper aBlankADayPaper = new Paper("An       a day keeps the doctor away");
-		aBlankADayPaper.insertTextAtTheGivenIndex("onion", 3);
-		assertEquals("An onion a day keeps the doctor away", aBlankADayPaper.getText());
+		try {
+			aBlankADayPaper.insertTextAtTheGivenIndex("onion", 3);
+			assertEquals("An onion a day keeps the doctor away", aBlankADayPaper.getText());
+		} catch (PaperCannotInsertTextAtTheGivenIndexException exception) {
+	    	fail(exception.getExceptionMessage());
+	    }
 	}
 
 	@Test
 	public void testThatAPaperCanHaveTextEditedIntoWhitespaceAndOverOtherCharacters(){
 		Paper aBlankADayPaper = new Paper("An       a day keeps the doctor away");
-		aBlankADayPaper.insertTextAtTheGivenIndex("artichoke", 3);
-		assertEquals("An artich@k@ay keeps the doctor away", aBlankADayPaper.getText());
+		try {
+			aBlankADayPaper.insertTextAtTheGivenIndex("artichoke", 3);
+			assertEquals("An artich@k@ay keeps the doctor away", aBlankADayPaper.getText());
+		} catch (PaperCannotInsertTextAtTheGivenIndexException exception) {
+	    	fail(exception.getExceptionMessage());
+	    }
 	}
 
 	@Test
 	public void testThatAPaperCanHaveTextEditedAndHaveItExtendBeyondTheCurrentLength(){
 		Paper helloWorldPaper = new Paper("Hello world!");
-		helloWorldPaper.insertTextAtTheGivenIndex("everyone!", 6);
-		assertEquals("Hello @@@@@@ne!", helloWorldPaper.getText());
+		try {
+			helloWorldPaper.insertTextAtTheGivenIndex("everyone!", 6);
+			assertEquals("Hello @@@@@@ne!", helloWorldPaper.getText());
+		} catch (PaperCannotInsertTextAtTheGivenIndexException exception) {
+	    	fail(exception.getExceptionMessage());
+	    }
+	}
+
+	@Test
+	public void testThatAPaperThrowsAnExceptionIfAUserTriesToEditTextAtAnIndexGreaterThanTheCurrentLength(){
+		try {
+    		Paper helloWorldPaper = new Paper("Hello world!");
+			helloWorldPaper.insertTextAtTheGivenIndex("everyone!", 20);
+    		fail("Paper did not throw PaperDoesNotContainThatSubstringException.");
+    	} catch (PaperCannotInsertTextAtTheGivenIndexException exception) {
+    		assertEquals("This paper cannot perform that edit since index 20 does not exist.", exception.getExceptionMessage());
+    	}
 	}
 }
