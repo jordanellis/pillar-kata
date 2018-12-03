@@ -51,7 +51,10 @@ public class Paper {
 
     		char characterToAddToCurrentIndex = textToAddToPaper.charAt(i);
     		if (currentTextAsCharArray[startIndex + i] != ' '){
-	    		characterToAddToCurrentIndex = '@';
+    			if (characterToAddToCurrentIndex == ' ')
+    				continue;
+    			else
+	    			characterToAddToCurrentIndex = '@';
 	    	}
 
     		currentTextAsCharArray[startIndex + i] = characterToAddToCurrentIndex;
