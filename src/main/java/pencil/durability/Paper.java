@@ -23,42 +23,46 @@ public class Paper {
     }
 
     public void removeText(String textToRemoveFromPaper) throws PaperDoesNotContainThatSubstringException {
-    	String currentText = getText();
-		char[] currentTextAsCharArray = currentText.toCharArray();
-    	int startIndex = currentText.lastIndexOf(textToRemoveFromPaper);
+    	int startIndex = getText().lastIndexOf(textToRemoveFromPaper);
     	if (startIndex < 0){
     		throw new PaperDoesNotContainThatSubstringException(textToRemoveFromPaper);
     	}
-    	for (int i = 0; i < textToRemoveFromPaper.length(); i++){
-			currentTextAsCharArray[startIndex + i] = ' ';
+    	overwriteEachCharacterForEraseAndInsertion(false, textToRemoveFromPaper, startIndex);
+    }
+
+    public void insertTextAtTheGivenIndex(String textToAddToPaper, int startIndex) throws PaperCannotInsertTextAtTheGivenIndexException {
+    	if (getText().length() < startIndex) {
+    		throw new PaperCannotInsertTextAtTheGivenIndexException(startIndex);
+    	}
+    	overwriteEachCharacterForEraseAndInsertion(true, textToAddToPaper, startIndex);
+    }
+
+    private void overwriteEachCharacterForEraseAndInsertion(boolean isInsertAction, String textToAddToPaper, int startIndex){
+		char[] currentTextAsCharArray = getText().toCharArray();
+    	for (int i = 0; i < textToAddToPaper.length(); i++){
+    		if (isInsertAction && startIndex+i == getText().length()){
+    			appendTheRemainingText(currentTextAsCharArray, textToAddToPaper, i);
+    			return;
+    		}
+	    	char characterToAddToCurrentIndex = isInsertAction ? getCurrentCharacterToAdd(textToAddToPaper.charAt(i), currentTextAsCharArray[startIndex + i])
+	    													   : ' ';
+    		currentTextAsCharArray[startIndex + i] = characterToAddToCurrentIndex;
     	}
 		setText(String.valueOf(currentTextAsCharArray));
     }
 
-    public void insertTextAtTheGivenIndex(String textToAddToPaper, int startIndex) throws PaperCannotInsertTextAtTheGivenIndexException {
-    	String currentText = getText();
-    	if (currentText.length() < startIndex) {
-    		throw new PaperCannotInsertTextAtTheGivenIndexException(startIndex);
-    	}
-    	char[] currentTextAsCharArray = currentText.toCharArray();
-    	for (int i = 0; i < textToAddToPaper.length(); i++){
-    		if (startIndex+i == currentText.length()){
-    			setText(String.valueOf(currentTextAsCharArray));
-    			String remainingTextToAddToPaper = textToAddToPaper.substring(i, textToAddToPaper.length());
-    			addText(remainingTextToAddToPaper);
-    			return;
-    		}
-
-    		char characterToAddToCurrentIndex = textToAddToPaper.charAt(i);
-    		if (currentTextAsCharArray[startIndex + i] != ' '){
-    			if (characterToAddToCurrentIndex == ' ')
-    				continue;
-    			else
-	    			characterToAddToCurrentIndex = '@';
-	    	}
-
-    		currentTextAsCharArray[startIndex + i] = characterToAddToCurrentIndex;
-    	}
+    private void appendTheRemainingText(char[] currentTextAsCharArray, String textToAddToPaper, int indexOfRemainingText){
 		setText(String.valueOf(currentTextAsCharArray));
+		String remainingTextToAddToPaper = textToAddToPaper.substring(indexOfRemainingText, textToAddToPaper.length());
+		addText(remainingTextToAddToPaper);
+    }
+
+    private char getCurrentCharacterToAdd(char initialCharacterToAdd, char characterToOverwrite){
+    	if (characterToOverwrite != ' ' && initialCharacterToAdd != ' ')
+    		return '@';
+    	else if (initialCharacterToAdd == ' ')
+    		return characterToOverwrite;
+    	else
+    		return initialCharacterToAdd;
     }
 }
