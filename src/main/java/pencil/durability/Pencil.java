@@ -30,7 +30,16 @@ public class Pencil {
 	}
 
 	public void write(String wordsToWrite, Paper paperToWriteOn){
-		setCurrentPointRemaing(getCurrentPointRemaining() - wordsToWrite.length());
+		setCurrentPointRemaing(getCurrentPointRemaining() - (wordsToWrite.length()+numberOfUppercaseCharacters(wordsToWrite)));
 		paperToWriteOn.addText(wordsToWrite);
+	}
+
+	private int numberOfUppercaseCharacters(String words){
+		int numberOfUppercaseCharacters = 0;
+		for(int i = 0; i < words.length(); i++) {
+			if (Character.isUpperCase(words.charAt(i)))
+				numberOfUppercaseCharacters++;
+		}
+		return numberOfUppercaseCharacters;
 	}
 }

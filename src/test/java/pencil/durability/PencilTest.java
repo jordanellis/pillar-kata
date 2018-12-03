@@ -32,4 +32,11 @@ public class PencilTest {
 		verify(mockPaper).addText("hello");
 		assertEquals(POINT_DURABILITY - 5, numberTwoPencil.getCurrentPointRemaining());
 	}
+
+	@Test
+	public void testThatUsingAPencilToWriteLowercaseAndUppercaseTextOnAPaperDegradesThePointOfThePencil(){
+		numberTwoPencil.write("Hello", mockPaper);
+		verify(mockPaper).addText("Hello");
+		assertEquals(POINT_DURABILITY - 6, numberTwoPencil.getCurrentPointRemaining());
+	}
 }
