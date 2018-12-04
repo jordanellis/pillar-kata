@@ -38,13 +38,14 @@ public class Pencil {
 		String wordsThatCanBeWritten = "";
 		for (int i = 0; i < initialWordsToWrite.length(); i++) {
 			if (getCurrentPointRemaining() <= 0 || (Character.isUpperCase(initialWordsToWrite.charAt(i)) && getCurrentPointRemaining() <= 1)) {
-				return wordsThatCanBeWritten;
-			}
-			wordsThatCanBeWritten = wordsThatCanBeWritten + initialWordsToWrite.charAt(i);
-			if (Character.isUpperCase(initialWordsToWrite.charAt(i))){
-				setCurrentPointRemaining(getCurrentPointRemaining() - 2);
-			} else if (initialWordsToWrite.charAt(i) != ' ' && initialWordsToWrite.charAt(i) != '\n') {
-				setCurrentPointRemaining(getCurrentPointRemaining() - 1);
+				wordsThatCanBeWritten = wordsThatCanBeWritten + ' ';
+			} else {
+				wordsThatCanBeWritten = wordsThatCanBeWritten + initialWordsToWrite.charAt(i);
+				if (Character.isUpperCase(initialWordsToWrite.charAt(i))){
+					setCurrentPointRemaining(getCurrentPointRemaining() - 2);
+				} else if (initialWordsToWrite.charAt(i) != ' ' && initialWordsToWrite.charAt(i) != '\n') {
+					setCurrentPointRemaining(getCurrentPointRemaining() - 1);
+				}
 			}
 		}
 		return wordsThatCanBeWritten;

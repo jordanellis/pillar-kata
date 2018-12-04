@@ -55,14 +55,14 @@ public class PencilTest {
     @Test
     public void testThatAPencilStopsWritingTheRestOfAWordAfterThePointHasFullyDegraded(){
         dullPencil.write("Hello World!", mockPaper);
-        verify(mockPaper).addText("Hello");
+        verify(mockPaper).addText("Hello       ");
         assertEquals(0, dullPencil.getCurrentPointRemaining());
     }
 
     @Test
-    public void testThatAPencilStopsWritingTheRestOfAWordIfItIsNotSharpEnoughToWriteACapitalLetter(){
+    public void testThatAPencilSkipsACapitalLetterIfItIsNotSharpEnoughToWriteIt(){
         dullPencil.write("hello World!", mockPaper);
-        verify(mockPaper).addText("hello ");
-        assertEquals(1, dullPencil.getCurrentPointRemaining());
+        verify(mockPaper).addText("hello  o    ");
+        assertEquals(0, dullPencil.getCurrentPointRemaining());
     }
 }
