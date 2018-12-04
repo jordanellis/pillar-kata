@@ -33,12 +33,17 @@ public class Pencil {
 		return this.pencilLength;
 	}
 
+	public void decreaseLength(){
+		this.pencilLength = this.pencilLength - 1;
+	}
+
 	public void write(String wordsToWrite, Paper paperToWriteOn){
 		wordsToWrite = getTheWordsThatThePencilCanWriteWithItsCurrentPointDurability(wordsToWrite);
 		paperToWriteOn.addText(wordsToWrite);
 	}
 
 	public void sharpen(){
+		decreaseLength();
 		setCurrentPointRemaining(getPencilDurabilityRating());
 	}
 

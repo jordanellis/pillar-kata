@@ -77,4 +77,11 @@ public class PencilTest {
         verify(mockPaper).addText("Test");
         assertEquals(1, dullPencil.getCurrentPointRemaining());
     }
+
+    @Test
+    public void testThatAPencilLosesLengthWhenItIsSharpened(){
+        assertEquals(DULL_PENCIL_LENGTH, dullPencil.length());
+    	dullPencil.sharpen();
+        assertEquals(DULL_PENCIL_LENGTH - 1, dullPencil.length());
+    }
 }
