@@ -30,32 +30,8 @@ public class Pencil {
 	}
 
 	public void write(String wordsToWrite, Paper paperToWriteOn){
-		int totalCostOfWords = numberOfCharactersThatAreNeitherSpaceNorNewlines(wordsToWrite) + numberOfUppercaseCharacters(wordsToWrite);
-		if (totalCostOfWords > getCurrentPointRemaining()) {
-			wordsToWrite = getTheWordsThatThePencilCanWriteWithItsCurrentPointDurability(wordsToWrite);
-			setCurrentPointRemaining(0);
-		} else {
-			setCurrentPointRemaining(getCurrentPointRemaining() - totalCostOfWords);
-		}
+		wordsToWrite = getTheWordsThatThePencilCanWriteWithItsCurrentPointDurability(wordsToWrite);
 		paperToWriteOn.addText(wordsToWrite);
-	}
-
-	private int numberOfUppercaseCharacters(String text){
-		int numberOfUppercaseCharacters = 0;
-		for (int i = 0; i < text.length(); i++) {
-			if (Character.isUpperCase(text.charAt(i)))
-				numberOfUppercaseCharacters++;
-		}
-		return numberOfUppercaseCharacters;
-	}
-
-	private int numberOfCharactersThatAreNeitherSpaceNorNewlines(String text){
-		int numberOfCharacters = 0;
-		for (int i = 0; i < text.length(); i++) {
-			if (text.charAt(i) != ' ' && text.charAt(i) != '\n')
-				numberOfCharacters++;
-		}
-		return numberOfCharacters;
 	}
 
 	private String getTheWordsThatThePencilCanWriteWithItsCurrentPointDurability(String initialWordsToWrite){
@@ -67,7 +43,7 @@ public class Pencil {
 			wordsThatCanBeWritten = wordsThatCanBeWritten + initialWordsToWrite.charAt(i);
 			if (Character.isUpperCase(initialWordsToWrite.charAt(i))){
 				setCurrentPointRemaining(getCurrentPointRemaining() - 2);
-			} else {
+			} else if (initialWordsToWrite.charAt(i) != ' ' && initialWordsToWrite.charAt(i) != '\n') {
 				setCurrentPointRemaining(getCurrentPointRemaining() - 1);
 			}
 		}
