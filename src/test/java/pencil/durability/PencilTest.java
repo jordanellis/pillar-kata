@@ -65,4 +65,16 @@ public class PencilTest {
         verify(mockPaper).addText("hello  o    ");
         assertEquals(0, dullPencil.getCurrentPointRemaining());
     }
+
+    @Test
+    public void testThatAPencilCanBeSharpenedAndCanContinueToWriteAfterwards(){
+    	dullPencil.write("Hello World!", mockPaper);
+        verify(mockPaper).addText("Hello       ");
+        assertEquals(0, dullPencil.getCurrentPointRemaining());
+        dullPencil.sharpen();
+        assertEquals(6, dullPencil.getCurrentPointRemaining());
+        dullPencil.write("Test", mockPaper);
+        verify(mockPaper).addText("Test");
+        assertEquals(1, dullPencil.getCurrentPointRemaining());
+    }
 }
