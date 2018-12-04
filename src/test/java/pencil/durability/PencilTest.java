@@ -68,20 +68,46 @@ public class PencilTest {
 
     @Test
     public void testThatAPencilCanBeSharpenedAndCanContinueToWriteAfterwards(){
-    	dullPencil.write("Hello World!", mockPaper);
-        verify(mockPaper).addText("Hello       ");
-        assertEquals(0, dullPencil.getCurrentPointRemaining());
-        dullPencil.sharpen();
-        assertEquals(6, dullPencil.getCurrentPointRemaining());
-        dullPencil.write("Test", mockPaper);
-        verify(mockPaper).addText("Test");
-        assertEquals(1, dullPencil.getCurrentPointRemaining());
+		try {
+	    	dullPencil.write("Hello World!", mockPaper);
+	        verify(mockPaper).addText("Hello       ");
+	        assertEquals(0, dullPencil.getCurrentPointRemaining());
+	        dullPencil.sharpen();
+	        assertEquals(6, dullPencil.getCurrentPointRemaining());
+	        dullPencil.write("Test", mockPaper);
+	        verify(mockPaper).addText("Test");
+	        assertEquals(1, dullPencil.getCurrentPointRemaining());
+        } catch (PencilIsNotLongEnoughToSharpenException exception) {
+    		fail(exception.getExceptionMessage());
+    	}
     }
 
     @Test
     public void testThatAPencilLosesLengthWhenItIsSharpened(){
-        assertEquals(DULL_PENCIL_LENGTH, dullPencil.length());
-    	dullPencil.sharpen();
-        assertEquals(DULL_PENCIL_LENGTH - 1, dullPencil.length());
+    	try {
+	        assertEquals(DULL_PENCIL_LENGTH, dullPencil.length());
+	    	dullPencil.sharpen();
+	        assertEquals(DULL_PENCIL_LENGTH - 1, dullPencil.length());
+        } catch (PencilIsNotLongEnoughToSharpenException exception) {
+    		fail(exception.getExceptionMessage());
+    	}
+    }
+
+    @Test
+    public void testThatAPencilThrowsAnExceptionAfterTryingToSharpenItWithNoLength(){
+    	try {
+	        assertEquals(DULL_PENCIL_LENGTH, dullPencil.length());
+	    	dullPencil.sharpen();
+	        assertEquals(DULL_PENCIL_LENGTH - 1, dullPencil.length());
+	        dullPencil.write("Hello", mockPaper);
+	        verify(mockPaper).addText("Hello");
+	        assertEquals(0, dullPencil.getCurrentPointRemaining());
+	    	dullPencil.sharpen();
+    		fail("Pencil did not throw a PencilIsNotLongEnoughToSharpenException.");
+    	} catch (PencilIsNotLongEnoughToSharpenException exception) {
+    		assertEquals("This pencil is too short and can no longer be sharpened.", exception.getExceptionMessage());
+	        assertEquals(0, dullPencil.length());
+	        assertEquals(0, dullPencil.getCurrentPointRemaining());
+    	}
     }
 }

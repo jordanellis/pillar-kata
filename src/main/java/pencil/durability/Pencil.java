@@ -42,7 +42,9 @@ public class Pencil {
 		paperToWriteOn.addText(wordsToWrite);
 	}
 
-	public void sharpen(){
+	public void sharpen() throws PencilIsNotLongEnoughToSharpenException {
+		if (length() == 0)
+			throw new PencilIsNotLongEnoughToSharpenException();
 		decreaseLength();
 		setCurrentPointRemaining(getPencilDurabilityRating());
 	}
