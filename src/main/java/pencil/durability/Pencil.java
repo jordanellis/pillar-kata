@@ -30,16 +30,26 @@ public class Pencil {
 	}
 
 	public void write(String wordsToWrite, Paper paperToWriteOn){
-		setCurrentPointRemaing(getCurrentPointRemaining() - (wordsToWrite.length()+numberOfUppercaseCharacters(wordsToWrite)));
+		int totalCostOfWords = numberOfCharactersThatAreNeitherSpaceNorNewlines(wordsToWrite) + numberOfUppercaseCharacters(wordsToWrite);
+		setCurrentPointRemaing(getCurrentPointRemaining() - totalCostOfWords);
 		paperToWriteOn.addText(wordsToWrite);
 	}
 
-	private int numberOfUppercaseCharacters(String words){
+	private int numberOfUppercaseCharacters(String text){
 		int numberOfUppercaseCharacters = 0;
-		for(int i = 0; i < words.length(); i++) {
-			if (Character.isUpperCase(words.charAt(i)))
+		for(int i = 0; i < text.length(); i++) {
+			if (Character.isUpperCase(text.charAt(i)))
 				numberOfUppercaseCharacters++;
 		}
 		return numberOfUppercaseCharacters;
+	}
+
+	private int numberOfCharactersThatAreNeitherSpaceNorNewlines(String text){
+		int numberOfCharacters = 0;
+		for(int i = 0; i < text.length(); i++) {
+			if (text.charAt(i) != ' ' && text.charAt(i) != '\n')
+				numberOfCharacters++;
+		}
+		return numberOfCharacters;
 	}
 }

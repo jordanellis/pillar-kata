@@ -6,16 +6,21 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class PencilTest {
-	public static final int POINT_DURABILITY = 10;
+	public static final int POINT_DURABILITY = 20;
 	public static final int ERASER_DURABILITY = 50;
 	public static final int PENCIL_LENGTH = 5;
+	public static final int DULL_POINT_DURABILITY = 6;
+	public static final int DULL_ERASER_DURABILITY = 5;
+	public static final int DULL_PENCIL_LENGTH = 1;
 
 	Pencil numberTwoPencil;
+	Pencil dullPencil;
 	Paper mockPaper;
 
 	@Before
 	public void setup(){
 		numberTwoPencil = new Pencil(POINT_DURABILITY, ERASER_DURABILITY, PENCIL_LENGTH);
+		dullPencil = new Pencil(DULL_POINT_DURABILITY, DULL_ERASER_DURABILITY, DULL_PENCIL_LENGTH);
 		mockPaper = mock(Paper.class);
 	}
 
@@ -38,5 +43,12 @@ public class PencilTest {
 		numberTwoPencil.write("Hello", mockPaper);
 		verify(mockPaper).addText("Hello");
 		assertEquals(POINT_DURABILITY - 6, numberTwoPencil.getCurrentPointRemaining());
+	}
+
+	@Test
+	public void testThatUsingAPencilToWriteSpacesOrNewlinesDoesNotDegradeThePointOfThePencil(){
+		numberTwoPencil.write("Hello World!\n", mockPaper);
+		verify(mockPaper).addText("Hello World!\n");
+		assertEquals(POINT_DURABILITY - 13, numberTwoPencil.getCurrentPointRemaining());
 	}
 }
