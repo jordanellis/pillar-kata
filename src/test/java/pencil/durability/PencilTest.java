@@ -51,4 +51,11 @@ public class PencilTest {
 		verify(mockPaper).addText("Hello World!\n");
 		assertEquals(POINT_DURABILITY - 13, numberTwoPencil.getCurrentPointRemaining());
 	}
+	
+    @Test
+    public void testThatAPencilStopsWritingTheRestOfAWordAfterThePointHasFullyDegraded(){
+        dullPencil.write("Hello World!", mockPaper);
+        verify(mockPaper).addText("Hello");
+        assertEquals(0, dullPencil.getCurrentPointRemaining());
+    }
 }
