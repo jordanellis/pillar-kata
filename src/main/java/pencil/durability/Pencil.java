@@ -47,9 +47,13 @@ public class Pencil {
 	}
 
 	public void eraseTextFromPaper(String wordsToErase, Paper paperToEraseFrom) throws PaperDoesNotContainThatSubstringException {
-		setCurrentEraserRemaining(getCurrentEraserRemaining() - wordsToErase.length());
+		int totalDegradingOfTheEraser = 0;
+		for (int i = 0; i < wordsToErase.length(); i++){
+			if (wordsToErase.charAt(i) != ' ' && wordsToErase.charAt(i) != '\n')
+				totalDegradingOfTheEraser++;
+		}
+		setCurrentEraserRemaining(getCurrentEraserRemaining() - totalDegradingOfTheEraser);
 		paperToEraseFrom.removeText(wordsToErase);
-		
 	}
 
 	public void sharpen() throws PencilIsNotLongEnoughToSharpenException {

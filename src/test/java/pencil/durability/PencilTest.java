@@ -121,4 +121,15 @@ public class PencilTest {
     		fail(exception.getExceptionMessage());
     	}
     }
+
+    @Test
+    public void testThatErasingWhitespaceTextWithAPencilDoesNotDegradeItsEraser(){
+    	try {
+    		numberTwoPencil.eraseTextFromPaper("H e l l o", mockPaper);
+    		verify(mockPaper).removeText("H e l l o");
+    		assertEquals(ERASER_DURABILITY-5, numberTwoPencil.getCurrentEraserRemaining());
+    	} catch (PaperDoesNotContainThatSubstringException exception) {
+    		fail(exception.getExceptionMessage());
+    	}
+    }
 }
