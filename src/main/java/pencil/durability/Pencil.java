@@ -29,6 +29,10 @@ public class Pencil {
 		return this.eraserDurability;
 	}
 
+	public void setCurrentEraserRemaining(int newEraserRemaining){
+		this.eraserDurability = newEraserRemaining;
+	}
+
 	public int length(){
 		return this.pencilLength;
 	}
@@ -40,6 +44,12 @@ public class Pencil {
 	public void write(String wordsToWrite, Paper paperToWriteOn){
 		wordsToWrite = getTheWordsThatThePencilCanWriteWithItsCurrentPointDurability(wordsToWrite);
 		paperToWriteOn.addText(wordsToWrite);
+	}
+
+	public void eraseTextFromPaper(String wordsToErase, Paper paperToEraseFrom) throws PaperDoesNotContainThatSubstringException {
+		setCurrentEraserRemaining(getCurrentEraserRemaining() - wordsToErase.length());
+		paperToEraseFrom.removeText(wordsToErase);
+		
 	}
 
 	public void sharpen() throws PencilIsNotLongEnoughToSharpenException {
