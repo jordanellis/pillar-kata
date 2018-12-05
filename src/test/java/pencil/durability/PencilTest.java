@@ -12,6 +12,9 @@ public class PencilTest {
 	public static final int DULL_POINT_DURABILITY = 6;
 	public static final int DULL_ERASER_DURABILITY = 5;
 	public static final int DULL_PENCIL_LENGTH = 1;
+	public static final String HELLO = "Hello";
+	public static final String LOWERCASE_HELLO = "hello";
+	public static final String HELLO_WORLD = "Hello World!";
 
 	Pencil numberTwoPencil;
 	Pencil dullPencil;
@@ -33,28 +36,29 @@ public class PencilTest {
 
 	@Test
 	public void testThatUsingAPencilToWriteLowercaseTextOnAPaperDegradesThePointOfThePencil(){
-		numberTwoPencil.write("hello", mockPaper);
-		verify(mockPaper).addText("hello");
+		numberTwoPencil.write(LOWERCASE_HELLO, mockPaper);
+		verify(mockPaper).addText(LOWERCASE_HELLO);
 		assertEquals(POINT_DURABILITY - 5, numberTwoPencil.getCurrentPointRemaining());
 	}
 
 	@Test
 	public void testThatUsingAPencilToWriteLowercaseAndUppercaseTextOnAPaperDegradesThePointOfThePencil(){
-		numberTwoPencil.write("Hello", mockPaper);
-		verify(mockPaper).addText("Hello");
+		numberTwoPencil.write(HELLO, mockPaper);
+		verify(mockPaper).addText(HELLO);
 		assertEquals(POINT_DURABILITY - 6, numberTwoPencil.getCurrentPointRemaining());
 	}
 
 	@Test
 	public void testThatUsingAPencilToWriteSpacesOrNewlinesDoesNotDegradeThePointOfThePencil(){
-		numberTwoPencil.write("Hello World!\n", mockPaper);
-		verify(mockPaper).addText("Hello World!\n");
+		String helloWorld = "Hello World!\n";
+		numberTwoPencil.write(helloWorld, mockPaper);
+		verify(mockPaper).addText(helloWorld);
 		assertEquals(POINT_DURABILITY - 13, numberTwoPencil.getCurrentPointRemaining());
 	}
 
     @Test
     public void testThatAPencilStopsWritingTheRestOfAWordAfterThePointHasFullyDegraded(){
-        dullPencil.write("Hello World!", mockPaper);
+        dullPencil.write(HELLO_WORLD, mockPaper);
         verify(mockPaper).addText("Hello       ");
         assertEquals(0, dullPencil.getCurrentPointRemaining());
     }
@@ -69,13 +73,14 @@ public class PencilTest {
     @Test
     public void testThatAPencilCanBeSharpenedAndCanContinueToWriteAfterwards(){
 		try {
-	    	dullPencil.write("Hello World!", mockPaper);
+	    	dullPencil.write(HELLO_WORLD, mockPaper);
 	        verify(mockPaper).addText("Hello       ");
 	        assertEquals(0, dullPencil.getCurrentPointRemaining());
 	        dullPencil.sharpen();
 	        assertEquals(6, dullPencil.getCurrentPointRemaining());
-	        dullPencil.write("Test", mockPaper);
-	        verify(mockPaper).addText("Test");
+	        String test = "Test";
+	        dullPencil.write(test, mockPaper);
+	        verify(mockPaper).addText(test);
 	        assertEquals(1, dullPencil.getCurrentPointRemaining());
         } catch (PencilIsNotLongEnoughToSharpenException exception) {
     		fail(exception.getExceptionMessage());
@@ -99,8 +104,8 @@ public class PencilTest {
 	        assertEquals(DULL_PENCIL_LENGTH, dullPencil.length());
 	    	dullPencil.sharpen();
 	        assertEquals(DULL_PENCIL_LENGTH - 1, dullPencil.length());
-	        dullPencil.write("Hello", mockPaper);
-	        verify(mockPaper).addText("Hello");
+	        dullPencil.write(HELLO, mockPaper);
+	        verify(mockPaper).addText(HELLO);
 	        assertEquals(0, dullPencil.getCurrentPointRemaining());
 	    	dullPencil.sharpen();
     		fail("Pencil did not throw a PencilIsNotLongEnoughToSharpenException.");
@@ -114,8 +119,8 @@ public class PencilTest {
     @Test
     public void testThatErasingNonwhitespaceTextWithAPencilDegradesItsEraser(){
     	try {
-    		numberTwoPencil.eraseTextFromPaper("Hello", mockPaper);
-    		verify(mockPaper).removeText("Hello");
+    		numberTwoPencil.eraseTextFromPaper(HELLO, mockPaper);
+    		verify(mockPaper).removeText(HELLO);
     		assertEquals(ERASER_DURABILITY-5, numberTwoPencil.getCurrentEraserRemaining());
     	} catch (PaperDoesNotContainThatSubstringException exception) {
     		fail(exception.getExceptionMessage());
@@ -125,8 +130,9 @@ public class PencilTest {
     @Test
     public void testThatErasingWhitespaceTextWithAPencilDoesNotDegradeItsEraser(){
     	try {
-    		numberTwoPencil.eraseTextFromPaper("H e l l o", mockPaper);
-    		verify(mockPaper).removeText("H e l l o");
+    		String hello = "H e l l o";
+    		numberTwoPencil.eraseTextFromPaper(hello, mockPaper);
+    		verify(mockPaper).removeText(hello);
     		assertEquals(ERASER_DURABILITY-5, numberTwoPencil.getCurrentEraserRemaining());
     	} catch (PaperDoesNotContainThatSubstringException exception) {
     		fail(exception.getExceptionMessage());
@@ -136,7 +142,7 @@ public class PencilTest {
     @Test
     public void testThatAnEraserCanDegradeFullyAndThatThePencilWillStopErasing(){
     	try {
-    		dullPencil.eraseTextFromPaper("Hello World!", mockPaper);
+    		dullPencil.eraseTextFromPaper(HELLO_WORLD, mockPaper);
     		verify(mockPaper).removeText("orld!");
     		assertEquals(0, dullPencil.getCurrentEraserRemaining());
     	} catch (PaperDoesNotContainThatSubstringException exception) {
@@ -148,7 +154,7 @@ public class PencilTest {
     public void testThatAttemptingToEraseAStringThatAPaperDoesNotContainThrowsAnExceptionAndDoesNotDegradeTheEraser(){
     	try {
     		Paper stubbedPaper = new StubbedPaperThatAlwaysThrowsAnException("");
-    		dullPencil.eraseTextFromPaper("Hello", stubbedPaper);
+    		dullPencil.eraseTextFromPaper(HELLO, stubbedPaper);
     		fail("Pencil did not throw a PaperDoesNotContainThatSubstringException.");
     	} catch (PaperDoesNotContainThatSubstringException exception) {
     		assertEquals("This paper does not contain the substring 'Hello'.", exception.getExceptionMessage());
@@ -159,8 +165,8 @@ public class PencilTest {
     @Test
     public void testThatAPencilCanEditTextOnAPageAndItWillDegradeThePoint(){
     	try {
-    		numberTwoPencil.insertTextAtIndex("hello", mockPaper, 5);
-			verify(mockPaper).insertTextAtTheGivenIndex("hello", 5);
+    		numberTwoPencil.insertTextAtIndex(LOWERCASE_HELLO, mockPaper, 5);
+			verify(mockPaper).insertTextAtTheGivenIndex(LOWERCASE_HELLO, 5);
 			assertEquals(POINT_DURABILITY - 5, numberTwoPencil.getCurrentPointRemaining());
 		} catch (PaperCannotInsertTextAtTheGivenIndexException exception) {
     		fail(exception.getExceptionMessage());
@@ -171,7 +177,7 @@ public class PencilTest {
     @Test
     public void testThatAPencilStopsInsertingTheRestOfAWordAfterThePointHasFullyDegraded(){
     	try {
-			dullPencil.insertTextAtIndex("Hello World!", mockPaper, 5);
+			dullPencil.insertTextAtIndex(HELLO_WORLD, mockPaper, 5);
 	        verify(mockPaper).insertTextAtTheGivenIndex("Hello       ", 5);
 	        assertEquals(0, dullPencil.getCurrentPointRemaining());
 		} catch (PaperCannotInsertTextAtTheGivenIndexException exception) {
@@ -183,7 +189,7 @@ public class PencilTest {
     public void testThatAttemptingToInsertAtABadIndexThrowsAnExceptionAndDoesNotDegradeThePoint(){
     	try {
     		Paper stubbedPaper = new StubbedPaperThatAlwaysThrowsAnException("");
-    		dullPencil.insertTextAtIndex("Hello", stubbedPaper, 20);
+    		dullPencil.insertTextAtIndex(HELLO, stubbedPaper, 20);
     		fail("Pencil did not throw a PaperCannotInsertTextAtTheGivenIndexException.");
     	} catch (PaperCannotInsertTextAtTheGivenIndexException exception) {
     		assertEquals("This paper cannot perform that edit since index 20 does not exist.", exception.getExceptionMessage());
