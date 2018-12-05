@@ -1,6 +1,11 @@
 package pencil.durability;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Pencil {
+	private static final List<Character> WHITESPACE_CHARACTERS = Arrays.asList(' ', '\n');
+
 	private final int pointDurabilityRating;
 	private int currentPointDurability;
 	private int eraserDurability;
@@ -67,7 +72,7 @@ public class Pencil {
 				wordsThatCanBeWritten = wordsThatCanBeWritten + initialWordsToWrite.charAt(i);
 				if (Character.isUpperCase(initialWordsToWrite.charAt(i))){
 					setCurrentPointRemaining(getCurrentPointRemaining() - 2);
-				} else if (initialWordsToWrite.charAt(i) != ' ' && initialWordsToWrite.charAt(i) != '\n') {
+				} else if (!WHITESPACE_CHARACTERS.contains(initialWordsToWrite.charAt(i))){
 					setCurrentPointRemaining(getCurrentPointRemaining() - 1);
 				}
 			}
@@ -82,7 +87,7 @@ public class Pencil {
 				return wordsThatCanBeErased;
 			} else {
 				wordsThatCanBeErased =  initialWordsToErase.charAt(i) + wordsThatCanBeErased;
-				if (initialWordsToErase.charAt(i) != ' ' && initialWordsToErase.charAt(i) != '\n')
+				if (!WHITESPACE_CHARACTERS.contains(initialWordsToErase.charAt(i)))
 					setCurrentEraserRemaining(getCurrentEraserRemaining() - 1);
 			}
 		}
