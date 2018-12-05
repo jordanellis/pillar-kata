@@ -155,4 +155,15 @@ public class PencilTest {
     		assertEquals(DULL_ERASER_DURABILITY, dullPencil.getCurrentEraserRemaining());
     	}
     }
+
+    @Test
+    public void testThatAPencilCanEditTextOnAPageAndItWillDegradeThePoint(){
+    	try {
+    		numberTwoPencil.insertTextAtIndex("hello", mockPaper, 5);
+			verify(mockPaper).insertTextAtTheGivenIndex("hello", 5);
+			assertEquals(POINT_DURABILITY - 5, numberTwoPencil.getCurrentPointRemaining());
+		} catch (PaperCannotInsertTextAtTheGivenIndexException exception) {
+    		fail(exception.getExceptionMessage());
+    	}
+    }
 }
