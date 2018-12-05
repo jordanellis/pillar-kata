@@ -166,4 +166,28 @@ public class PencilTest {
     		fail(exception.getExceptionMessage());
     	}
     }
+
+
+    @Test
+    public void testThatAPencilStopsInsertingTheRestOfAWordAfterThePointHasFullyDegraded(){
+    	try {
+			dullPencil.insertTextAtIndex("Hello World!", mockPaper, 5);
+	        verify(mockPaper).insertTextAtTheGivenIndex("Hello       ", 5);
+	        assertEquals(0, dullPencil.getCurrentPointRemaining());
+		} catch (PaperCannotInsertTextAtTheGivenIndexException exception) {
+    		fail(exception.getExceptionMessage());
+    	}
+    }
+
+    @Test
+    public void testThatAttemptingToInsertAtABadIndexThrowsAnExceptionAndDoesNotDegradeThePoint(){
+    	try {
+    		Paper stubbedPaper = new StubbedPaperThatAlwaysThrowsAnException("");
+    		dullPencil.insertTextAtIndex("Hello", stubbedPaper, 20);
+    		fail("Pencil did not throw a PaperCannotInsertTextAtTheGivenIndexException.");
+    	} catch (PaperCannotInsertTextAtTheGivenIndexException exception) {
+    		assertEquals("This paper cannot perform that edit since index 20 does not exist.", exception.getExceptionMessage());
+    		assertEquals(DULL_POINT_DURABILITY, dullPencil.getCurrentPointRemaining());
+    	}
+    }
 }

@@ -52,8 +52,14 @@ public class Pencil {
 	}
 
 	public void insertTextAtIndex(String wordsToWrite, Paper paperToWriteOn, int atThisIndex) throws PaperCannotInsertTextAtTheGivenIndexException {
-		wordsToWrite = getTheWordsThatThePencilCanWriteWithItsCurrentPointDurability(wordsToWrite);
-		paperToWriteOn.insertTextAtTheGivenIndex(wordsToWrite, atThisIndex);
+		int initialPointDurability = getCurrentPointRemaining();
+		try {
+			wordsToWrite = getTheWordsThatThePencilCanWriteWithItsCurrentPointDurability(wordsToWrite);
+			paperToWriteOn.insertTextAtTheGivenIndex(wordsToWrite, atThisIndex);
+		} catch (PaperCannotInsertTextAtTheGivenIndexException exception) {
+			setCurrentPointRemaining(initialPointDurability);
+			throw exception;
+		}
 	}
 
 	public void eraseTextFromPaper(String wordsToErase, Paper paperToEraseFrom) throws PaperDoesNotContainThatSubstringException {

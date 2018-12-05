@@ -9,4 +9,9 @@ class StubbedPaperThatAlwaysThrowsAnException extends Paper {
     public void removeText(String textToRemoveFromPaper) throws PaperDoesNotContainThatSubstringException {
         throw new PaperDoesNotContainThatSubstringException(textToRemoveFromPaper);
     }
+
+	@Override
+    public void insertTextAtTheGivenIndex(String textToAddToPaper, int startIndex) throws PaperCannotInsertTextAtTheGivenIndexException {
+    	throw new PaperCannotInsertTextAtTheGivenIndexException(startIndex);
+    }
 }
