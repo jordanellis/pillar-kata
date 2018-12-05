@@ -143,4 +143,16 @@ public class PencilTest {
     		fail(exception.getExceptionMessage());
     	}
     }
+
+    @Test
+    public void testThatAttemptingToEraseAStringThatAPaperDoesNotContainThrowsAnExceptionAndDoesNotDegradeTheEraser(){
+    	try {
+    		Paper stubbedPaper = new StubbedPaperThatAlwaysThrowsAnException("");
+    		dullPencil.eraseTextFromPaper("Hello", stubbedPaper);
+    		fail("Pencil did not throw a PaperDoesNotContainThatSubstringException.");
+    	} catch (PaperDoesNotContainThatSubstringException exception) {
+    		assertEquals("This paper does not contain the substring 'Hello'.", exception.getExceptionMessage());
+    		assertEquals(DULL_ERASER_DURABILITY, dullPencil.getCurrentEraserRemaining());
+    	}
+    }
 }

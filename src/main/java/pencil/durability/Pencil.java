@@ -52,8 +52,14 @@ public class Pencil {
 	}
 
 	public void eraseTextFromPaper(String wordsToErase, Paper paperToEraseFrom) throws PaperDoesNotContainThatSubstringException {
+		int initialEraserDurability = getCurrentEraserRemaining();
 		wordsToErase = getTheWordsThatThePencilCanEraseWithItsCurrentEraserDurability(wordsToErase);
-		paperToEraseFrom.removeText(wordsToErase);
+		try {
+			paperToEraseFrom.removeText(wordsToErase);
+		} catch (PaperDoesNotContainThatSubstringException exception) {
+			setCurrentEraserRemaining(initialEraserDurability);
+			throw exception;
+		}
 	}
 
 	public void sharpen() throws PencilIsNotLongEnoughToSharpenException {
