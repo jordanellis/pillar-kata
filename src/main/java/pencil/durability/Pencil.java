@@ -47,12 +47,7 @@ public class Pencil {
 	}
 
 	public void eraseTextFromPaper(String wordsToErase, Paper paperToEraseFrom) throws PaperDoesNotContainThatSubstringException {
-		int totalDegradingOfTheEraser = 0;
-		for (int i = 0; i < wordsToErase.length(); i++){
-			if (wordsToErase.charAt(i) != ' ' && wordsToErase.charAt(i) != '\n')
-				totalDegradingOfTheEraser++;
-		}
-		setCurrentEraserRemaining(getCurrentEraserRemaining() - totalDegradingOfTheEraser);
+		wordsToErase = getTheWordsThatThePencilCanEraseWithItsCurrentEraserDurability(wordsToErase);
 		paperToEraseFrom.removeText(wordsToErase);
 	}
 
@@ -78,5 +73,19 @@ public class Pencil {
 			}
 		}
 		return wordsThatCanBeWritten;
+	}
+
+	private String getTheWordsThatThePencilCanEraseWithItsCurrentEraserDurability(String initialWordsToErase){
+		String wordsThatCanBeErased = "";
+		for (int i = initialWordsToErase.length()-1; i >= 0; i--) {
+			if (getCurrentEraserRemaining() <= 0) {
+				return wordsThatCanBeErased;
+			} else {
+				wordsThatCanBeErased =  initialWordsToErase.charAt(i) + wordsThatCanBeErased;
+				if (initialWordsToErase.charAt(i) != ' ' && initialWordsToErase.charAt(i) != '\n')
+					setCurrentEraserRemaining(getCurrentEraserRemaining() - 1);
+			}
+		}
+		return wordsThatCanBeErased;
 	}
 }

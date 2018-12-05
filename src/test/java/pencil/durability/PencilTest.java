@@ -132,4 +132,15 @@ public class PencilTest {
     		fail(exception.getExceptionMessage());
     	}
     }
+
+    @Test
+    public void testThatAnEraserCanDegradeFullyAndThatThePencilWillStopErasing(){
+    	try {
+    		dullPencil.eraseTextFromPaper("Hello World!", mockPaper);
+    		verify(mockPaper).removeText("orld!");
+    		assertEquals(0, dullPencil.getCurrentEraserRemaining());
+    	} catch (PaperDoesNotContainThatSubstringException exception) {
+    		fail(exception.getExceptionMessage());
+    	}
+    }
 }
