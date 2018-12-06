@@ -29,5 +29,9 @@ dependencies {
     testCompile "org.mockito:mockito-core:1.+"
 }
 
+run{
+    standardInput = System.in
+}
+
 // Define the main class for the application
 mainClassName = 'pencil.durability.PencilDurabilityApp'

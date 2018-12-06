@@ -20,4 +20,9 @@ public class UserInputHelper {
         this.inputStream = new Scanner(newInputStream);
         this.outputStream = newOutputStream;
     }
+
+    public String askUserForInput(String message) {
+        getOutputStream().println(message);
+        return getInputStream().nextLine();
+    }
 }
