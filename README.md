@@ -1,6 +1,6 @@
 # pillar-kata
 
-Foobar is a Python library for dealing with word pluralization.
+This project is an application that simulates writing and editing text on a paper with a pencil. It is written in Java. Gradle was also used to help build and run the project.
 
 ## Prerequisites
 
